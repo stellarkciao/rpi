@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# Aggiorna l'indice dei pacchetti e installa i prerequisiti
+sudo apt update
+sudo apt install -y raspotify
+
+# Installa e configura RaspberryCast
+git clone https://github.com/vincelwt/RaspberryCast.git
+cd RaspberryCast
+npm install
+sudo npm link
+
+# Configura e avvia il servizio RaspberryCast
+sudo cp ./raspberrycast.service /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable raspberrycast
+sudo systemctl start raspberrycast
+
+# Installa e configura AlexaPi
+git clone https://github.com/alexa-pi/AlexaPi.git
+cd AlexaPi
+./setup.sh
+
+# Abilita il servizio AlexaPi
+sudo systemctl enable AlexaPi.service
+sudo systemctl start AlexaPi.service
+
+# Configura YouTube Cast (se necessario)
+# Aggiungi qui eventuali comandi per configurare YouTube Cast, se richiesto
+
+echo "Configurazione completata!"
